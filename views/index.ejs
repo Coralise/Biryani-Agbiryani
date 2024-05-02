@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biryani Agbiryani</title>
+    <link rel="stylesheet" href="css/index.css">
+    <%- include("../components/init.ejs") %>
+</head>
+<body>
+    <div id="menu-modal">
+        <div id="menu-modal-card">
+            <div class="content-wrapper">
+                <div class="content">
+                    <div>
+                        <span class="category">Main Course</span>
+                        <br>
+                        <span class="name">A long ass name</span>
+                    </div>
+                    <div>
+                        <br>
+                        <span class="tags">
+                            <span class="tag">Rice</span>
+                            <span class="tag">Street Food</span>
+                            <span class="tag">Non-Vegetable</span>
+                        </span>
+                        <br>
+                        <br>
+                        <span class="description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</span>
+                    </div>
+                    <div>
+                        <span class="reviews">36 Reviews</span>
+                        <br>
+                        <span class="rating">
+                            <i data-star="2.5"></i>
+                            2.5
+                        </span>
+                        <br>
+                        <span class="price">₱XXXX</span>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="counter-wrapper">
+                        <span class="total">₱XXXX</span>
+                        <div class="counter">
+                            <button class="minus">
+                                <span class="material-symbols-outlined">
+                                    remove
+                                </span>
+                            </button>
+                            <span class="count">0</span>
+                            <button class="add">
+                                <span class="material-symbols-outlined">
+                                    add
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="add-to-cart">
+                        <button class="one">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <img src="images/trap.jpg" alt="">
+        </div>
+        <div id="menu-modal-background"></div>
+    </div>
+    <%- include("../components/navbar.ejs") %>
+    <div id="landing-blob"></div>
+    <div class="center">
+        <div class="gap"></div>
+        <div class="gap"></div>
+        <div class="container">
+            <div id="landing">
+                <img id="dish" class="slide-left" src="images/dish.png" alt="">
+                <div style="width: 40%;">
+                    <h1 id="title" class="thailandesa" style="margin: 0;">Biryani Agbiryani</h1>
+                    <h2 id="subtitle" class="thailandesa" style="color: var(--primary-500); margin: 0;">Your #1 Indian Restaurant</h2>
+                    <p class="fade-in">Experience the vibrant flavors of India, right here in your neighborhood, at Biryani Agbiryani—where every dish tells a story.</p>
+                    <div class="gap"></div>
+                    <div class="gap"></div>
+                    <div style="display: flex; justify-content: space-around;" class="width-100">
+                        <button id="order-now" class="one">Order Now</button>
+                        <button id="see-menu" class="two">See Menu</button>
+                    </div>
+                </div>
+            </div>
+            <div class="gap"></div>
+            <div class="gap"></div>
+            <div class="gap"></div>
+            <%- include("../components/menu.ejs") %>
+            <div class="gap"></div>
+            <div class="gap"></div>
+            <div class="gap"></div>
+            <div class="gap"></div>
+            <div class="gap"></div>
+            <div class="gap"></div>
+            <div class="gap"></div>
+        </div>
+    </div>
+    <script>
+        ScrollReveal().reveal(".slide-left", {...slideLeft, rotate: {z: 20}})
+        ScrollReveal().reveal(".fade-in", {...fadeIn, delay: "600"})
+        ScrollReveal().reveal("#title", {...slideUp, delay: "200"})
+        ScrollReveal().reveal("#subtitle", {...slideUp, delay: "400"})
+        ScrollReveal().reveal("#order-now", {...slideUp, delay: "800"})
+        ScrollReveal().reveal("#see-menu", {...slideUp, delay: "900"})
+    </script>
+</body>
+</html>

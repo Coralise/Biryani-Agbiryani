@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="css/menu.css">
+
+<div id="menu-wrapper">
+    <div id="menu-navigator">
+        <button class="category-button" onclick="getDishes()">
+            <span class="material-symbols-outlined icon">
+                local_dining
+            </span>
+            <span class="text">
+                All
+            </span>
+        </button>
+        <button class="category-button" onclick="getDishes({category: 'Appetizer'})">
+            <span class="material-symbols-outlined icon">
+                nutrition
+            </span>
+            <span class="text">
+                Appetizer
+            </span>
+        </button>
+        <button class="category-button" onclick="getDishes({category: 'Main Course'})">
+            <span class="material-symbols-outlined icon">
+                dinner_dining
+            </span>
+            <span class="text">
+                Main Course
+            </span>
+        </button>
+        <button class="category-button" onclick="getDishes({category: 'Breakfast'})">
+            <span class="material-symbols-outlined icon">
+                egg_alt
+            </span>
+            <span class="text">
+                Breakfast
+            </span>
+        </button>
+        <button class="category-button" onclick="getDishes({category: 'Snack'})">
+            <span class="material-symbols-outlined icon">
+                kebab_dining
+            </span>
+            <span class="text">
+                Snack
+            </span>
+        </button>
+        <button class="category-button" onclick="getDishes({category: 'Dessert'})">
+            <span class="material-symbols-outlined icon">
+                cookie
+            </span>
+            <span class="text">
+                Desserts
+            </span>
+        </button>
+    </div>
+    <div id="menu-list">
+        <div id="sorter">
+            Sort by
+            <select name="sort" id="sort" onchange="sortByKey(currentDishes)">
+                <option value="Name">Name</option>
+                <option value="Category">Category</option>
+                <option value="Price">Price</option>
+                <option value="AverageRating">Rating</option>
+            </select>
+            <select name="order" id="order" onchange="sortByKey(currentDishes)">
+                <option value=1>Ascending</option>
+                <option value=0>Descending</option>
+            </select>
+        </div>
+        <div class="gap"></div>
+        <div id="menu-cards"></div>
+    </div>
+</div>
+
+<script>
+    let currentDishes = []
+
+    function sortByKey(dishes) {
+        document.getElementById("menu-cards").innerHTML = ""
+        currentDishes = dishes.sort(function(a, b) {
+            var x = a[document.getElementById("sort").value];
+            var y = b[document.getElementById("sort").value];
+            if (typeof x === "string") {
+                return document.getElementById("order").value == 1 ? x.localeCompare(y) : y.localeCompare(x);
+            } else {
+                return document.getElementById("order").value == 1 ? x - y : y - x;
+            }
+        })
+        for (let i = 0;i < currentDishes.length;i++) {
+            let dish = currentDishes[i]
+            document.getElementById("menu-cards").innerHTML += `
+                <div class="dish-card" data-index=${i}>
+                    <div class="details">
+                        <div>
+                            <span class="category">${dish.Category}</span>
+                            <br>
+                            <span class="name">${dish.Name}</span>
+                        </div>
+                        <div>
+                            <span class="price">₱${dish.Price}</span>
+                            <br>
+                            <span class="rating">
+                                <i data-star="${dish.AverageRating}"></i>
+                                <span class="review">${dish.Reviews}</span>
+                            </span>
+                        </div>
+                    </div>
+                    <img src="${dish.StorageURL}" alt="">
+                </div>
+            `
+        }
+    }
+
+    function getDishes(options = {}) {
+        currentDishes = []
+        document.getElementById("menu-cards").innerHTML = ""
+        fetch("/api/getdishes", {
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify(options)
+        }).then(res => res.json().then(dishes => {
+            sortByKey(dishes)
+        }))
+    }
+    getDishes()
+</script>

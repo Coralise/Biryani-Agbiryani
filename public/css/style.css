@@ -1,0 +1,228 @@
+@font-face {
+    font-family: Thailandesa;
+    src: url(../THAILAND.TTF);
+}
+
+@font-face {
+    font-family: OpenSans;
+    src: url(../OpenSans.ttf);
+}
+
+html[data-theme="light"] {
+    --text-50: #faf3eb;
+    --text-100: #f5e7d6;
+    --text-200: #ebcfad;
+    --text-300: #e0b785;
+    --text-400: #d69f5c;
+    --text-500: #cc8733;
+    --text-600: #a36c29;
+    --text-700: #7a511f;
+    --text-800: #523614;
+    --text-900: #291b0a;
+    --text-950: #140e05;
+
+    --background-50: #faf5eb;
+    --background-100: #f5ebd6;
+    --background-200: #ebd6ad;
+    --background-300: #e0c285;
+    --background-400: #d6ad5c;
+    --background-500: #cc9933;
+    --background-600: #a37a29;
+    --background-700: #7a5c1f;
+    --background-800: #523d14;
+    --background-900: #291f0a;
+    --background-950: #140f05;
+
+    --primary-50: #fbf3e9;
+    --primary-100: #f7e7d4;
+    --primary-200: #efd0a9;
+    --primary-300: #e7b87e;
+    --primary-400: #dfa053;
+    --primary-500: #d78828;
+    --primary-600: #ac6d20;
+    --primary-700: #815218;
+    --primary-800: #563710;
+    --primary-900: #2b1b08;
+    --primary-950: #160e04;
+
+    --secondary-50: #ebfaf5;
+    --secondary-100: #d6f5eb;
+    --secondary-200: #aeead7;
+    --secondary-300: #85e0c3;
+    --secondary-400: #5dd5af;
+    --secondary-500: #34cb9b;
+    --secondary-600: #2aa27c;
+    --secondary-700: #1f7a5d;
+    --secondary-800: #15513e;
+    --secondary-900: #0a291f;
+    --secondary-950: #051410;
+
+    --accent-50: #ebf5fa;
+    --accent-100: #d6ecf5;
+    --accent-200: #aed8ea;
+    --accent-300: #85c5e0;
+    --accent-400: #5db1d5;
+    --accent-500: #349ecb;
+    --accent-600: #2a7ea2;
+    --accent-700: #1f5f7a;
+    --accent-800: #153f51;
+    --accent-900: #0a2029;
+    --accent-950: #051014;
+}
+html[data-theme="dark"] {
+    --text: #f1f1f1;
+    --background: #0b0804;
+    --primary: #c66906;
+    --secondary: #6e4112;
+    --accent: #a45c0e;
+}
+
+body {
+    font-family: OpenSans, sans-serif;
+    font-weight: 500;
+    color: var(--text-950);
+    background-color: var(--background-50);
+    margin: 0;
+}
+
+h1 {
+    font-size: 48px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+button.one {
+    padding: 1rem 1.5rem 1rem 1.5rem;
+    border-radius: 100px;
+    border: none;
+    background-color: var(--primary-500);
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--text-50);
+}
+
+button.two {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--primary-500);
+}
+
+.thailandesa {
+    font-family: Thailandesa, sans-serif;
+}
+
+.background-text {
+    color: var(--background-50);
+}
+
+.primary-text {
+    color: var(--primary-500);
+}
+
+.dbg {
+    border: 2px solid red;
+}
+
+.relative {
+    position: relative;
+}
+
+.z-1 {
+    z-index: 1;
+}
+
+.z-2 {
+    z-index: 2;
+}
+
+.width-100 {
+    width: 100%
+}
+
+.height-100 {
+    height: 100%;
+}
+
+.text-shadow {
+    text-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.flex {
+    display: flex;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.flex-center {
+    align-self: center;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.flex-gap {
+    gap: 1rem;
+}
+
+.bold {
+    font-weight: 900;
+}
+
+#navbar {
+    position: sticky;
+    width: 100%;
+    height: 3rem;
+    padding: .5rem 0 .5rem 0;
+    box-shadow: 0px 5px 15px #0b08043a;
+    top: 0;
+    z-index: 3;
+    backdrop-filter: blur(5px);
+}
+
+#navbar img {
+    height: 100%;
+}
+
+#navbar a.nav-button {
+    color: var(--text-950);
+    border: none;
+    text-decoration: none;
+    transition: all .5s cubic-bezier(0.5, 0, 0, 1);
+}
+
+#navbar a.nav-button:hover {
+    font-size: larger;
+    color: var(--primary-500);
+}
+
+.container {
+    width: 60%;
+}
+
+.gap {
+    height: 1rem;
+}
+
+a.clean {
+    color: var(--text-950);
+    border: none;
+    text-decoration: none;
+}
