@@ -1,11 +1,8 @@
-// import { initializeApp } from "firebase/app";
-// import { getDownloadURL, getStorage, ref } from "firebase/storage";
-// import { getFirestore, collection, getDoc, doc, getDocs, query, where, setDoc, updateDoc } from "firebase/firestore";
-// import { browserLocalPersistence, createUserWithEmailAndPassword, getAuth, setPersistence, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
-const { initializeApp } = require("firebase/app")
-const { getDownloadURL, getStorage, ref } = require("firebase/storage")
-const { getFirestore, collection, getDoc, doc, getDocs, query, where, setDoc, updateDoc } = require("firebase/firestore")
-const { browserLocalPersistence, createUserWithEmailAndPassword, getAuth, setPersistence, signInWithEmailAndPassword, signOut, updateProfile } = require("firebase/auth")
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
+import { getFirestore, collection, getDoc, doc, getDocs, query, where, setDoc, updateDoc } from "firebase/firestore";
+import { browserLocalPersistence, createUserWithEmailAndPassword, getAuth, setPersistence, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyBukdTdi8A-hAR8Bp4X-r_FD3UwX50evJk",
   authDomain: "biryani-agbiryani.firebaseapp.com",
@@ -135,7 +132,7 @@ async function addPurchase(dishes) {
   await Promise.all(promises)
 }
 
-module.exports = {
+export default {
     app,
     storage,
     db,

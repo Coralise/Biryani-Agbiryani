@@ -30,7 +30,7 @@ app.get('/signup', (req, res) => {
 })
 
 app.get('/profile', (req, res) => {
-    res.render(firebase.getUser() !== null ? 'profile' : 'login', { User: firebase.getUser() })
+    res.render(firebase.getUser() !== undefined ? 'profile' : 'login', { User: firebase.getUser() })
 })
 
 app.post('/api/getdishes', async (req, res) => {

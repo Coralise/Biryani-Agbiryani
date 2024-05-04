@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "prod": "node dist/final.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Coralise",
   "license": "ISC",
@@ -14,8 +12,7 @@
     "body-parser": "^1.20.2",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
-    "firebase": "^10.11.1",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4"
-  }
+    "firebase": "^10.11.1"
+  },
+  "type": "module"
 }
