@@ -29,3 +29,9 @@
 #title {
     color: var(--text-900)
 }
+
+#landing-actions {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

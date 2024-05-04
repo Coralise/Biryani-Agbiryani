@@ -1,0 +1,141 @@
+#cart-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#bg-blob-1 {
+    position: absolute;
+    z-index: -1;
+    width: 65vw;
+    height: 90vh;
+    background-color: var(--secondary-100);
+    border-bottom-right-radius: 100%;
+}
+
+#cart-table th {
+    padding: .5rem;
+}
+
+#cart-table tr:first-child {
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    background-color: var(--background-100);
+}
+
+#cart-table tr:first-child th:first-child {
+    border-top-left-radius: 1rem;
+}
+#cart-table tr:first-child th:last-child {
+    border-top-right-radius: 1rem;
+}
+
+#cart-table td, #cart-table tr {
+    padding: .5rem 1rem .5rem 1rem;
+}
+
+#cart-table td {
+    text-align: center;
+}
+
+#cart-table tr:nth-child(odd) td {
+    background-color: var(--background-100);
+}
+
+#cart-table tr:nth-child(even) td {
+    background-color: var(--background-50);
+}
+
+#cart-table tr:last-child td:first-child {
+    border-bottom-left-radius: 1rem;
+}
+#cart-table tr:last-child td:last-child {
+    border-bottom-right-radius: 1rem;
+}
+
+#content-wrapper {
+    display: flex;
+    gap: 1rem;
+    position: relative;
+}
+
+
+
+.dish-image {
+    aspect-ratio: 1/1;
+    width: 100px;
+    object-fit: cover;
+    border-radius: 1rem;
+}
+
+.dish-info {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.dish-subtotal {
+    font-weight: bold;
+}
+
+.remove-button {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    font-weight: bold;
+    font-size: large;
+    color: var(--text-950);
+    transition: all .5s cubic-bezier(.5, 0, 0, 1);
+}
+.remove-button:hover {
+    color: var(--error);
+}
+
+.counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.counter .count {
+    padding: .5rem 1.5rem .5rem 1.5rem;
+    background-color: var(--primary-100);
+}
+
+.counter .minus {
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    padding: .4rem;
+    border: none;
+    background-color: var(--accent-300);
+}
+
+.counter .add {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: .4rem;
+    border: none;
+    background-color: var(--primary-300);
+}
+
+#cart-wrapper {
+    flex-basis: 100%;
+}
+
+#summary-wrapper {
+    width: 300px;
+    align-self: self-start;
+    position: sticky;
+    top: 10%;
+}
+
+#summary {
+    width: 50%;
+    flex: 1;
+}
+
+#summary-table {
+    width: 100%;
+}
+
+#voucher-wrapper {
+    flex: 3;
+}

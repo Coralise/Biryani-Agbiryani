@@ -59,6 +59,7 @@
                 <option value="Category">Category</option>
                 <option value="Price">Price</option>
                 <option value="AverageRating">Rating</option>
+                <option value="Purchases">Orders</option>
             </select>
             <select name="order" id="order" onchange="sortByKey(currentDishes)">
                 <option value=1>Ascending</option>
@@ -87,7 +88,10 @@
         for (let i = 0;i < currentDishes.length;i++) {
             let dish = currentDishes[i]
             document.getElementById("menu-cards").innerHTML += `
-                <div class="dish-card" data-index=${i}>
+                <div class="dish-card" data-index=${i} onclick="toggleModal(this.getAttribute('data-index'))">
+                    <div class="overlay">
+                        ${dish.Purchases > 80 ? '<div class="highly-ordered">Highly Ordered</div>' : ''}
+                    </div>
                     <div class="details">
                         <div>
                             <span class="category">${dish.Category}</span>
@@ -122,5 +126,44 @@
             sortByKey(dishes)
         }))
     }
+
+    function toggleModal(dishIndex) {
+        if (dishIndex >= 0) {
+            let deets = currentDishes[dishIndex]
+            let category = document.getElementsByClassName("category")[0]
+            let name = document.getElementsByClassName("name")[0]
+            let tags = document.getElementsByClassName("tags")[0]
+            let description = document.getElementsByClassName("description")[0]
+            let reviews = document.getElementsByClassName("reviews")[0]
+            let modalStars = document.getElementById("modal-stars")
+            let price = document.getElementsByClassName("price")[0]
+            let img = document.getElementById("modal-image")
+            let rate = document.getElementById("rate")
+            category.innerHTML = deets.Category
+            name.innerHTML = deets.Name
+            tags.innerHTML = ""
+            for (let tag of deets.Tags) tags.innerHTML += `<span class="tag">${tag}</span> `
+            description.innerHTML = deets.Description
+            reviews.innerHTML = `${deets.Purchases} Orders • ${deets.Reviews} Reviews`
+            modalStars.setAttribute("data-star", deets.AverageRating)
+            rate.innerHTML = deets.AverageRating
+            price.innerHTML = `₱${deets.Price}`
+            img.setAttribute("src", deets.StorageURL)
+            document.getElementById("count").innerHTML = 0
+            document.getElementById("total").innerHTML = ""
+            document.getElementById("total").classList.remove("revealed")
+            document.getElementById("menu-modal-card").setAttribute("data-docId", deets.DocID)
+            document.getElementById("menu-modal-card").setAttribute("data-index", dishIndex)
+            updateModalCartCount()
+        }
+        if (!document.getElementById("menu-modal-card").classList.contains("revealed")) {
+            document.getElementById("menu-modal-card").classList.add("revealed")
+            document.getElementById("menu-modal-background").classList.add("revealed")
+        } else {
+            document.getElementById("menu-modal-card").classList.remove("revealed")
+            document.getElementById("menu-modal-background").classList.remove("revealed")
+        }
+    }
+
     getDishes()
 </script>

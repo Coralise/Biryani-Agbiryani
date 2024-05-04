@@ -1,0 +1,113 @@
+<div id="menu-modal">
+    <div id="menu-modal-card">
+        <div class="content-wrapper">
+            <div class="content">
+                <div>
+                    <span class="category">Main Course</span>
+                    <br>
+                    <span class="name">A long ass name</span>
+                </div>
+                <div>
+                    <br>
+                    <span class="tags">
+                        <span class="tag">Rice</span>
+                        <span class="tag">Street Food</span>
+                        <span class="tag">Non-Vegetable</span>
+                    </span>
+                    <br>
+                    <br>
+                    <span class="description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</span>
+                </div>
+                <div>
+                    <span class="reviews">36 Reviews</span>
+                    <br>
+                    <span class="rating">
+                        <i id="modal-stars" data-star="2.5"></i>
+                        <span id="rate">2.5</span>
+                    </span>
+                    <br>
+                    <span class="price">₱XXXX</span>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="counter-wrapper">
+                    <span id="total">₱XXXX</span>
+                    <div class="counter">
+                        <button class="minus" onclick="removeCount()">
+                            <span class="material-symbols-outlined">
+                                remove
+                            </span>
+                        </button>
+                        <span id="count">0</span>
+                        <button class="add" onclick="addCount()">
+                            <span class="material-symbols-outlined">
+                                add
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div id="add-to-cart">
+                    <button class="one" onclick="addToCart()">Add to Cart</button>
+                    <a id="cart-count" class="clean bold" href="/cart">
+                        <i class="fa-solid fa-cart-shopping"></i> 0
+                    </a>
+                </div>
+            </div>
+        </div>
+        <img id="modal-image" src="images/trap.jpg" alt="">
+    </div>
+    <div id="menu-modal-background" onclick="toggleModal()"></div>
+</div>
+<script>
+    function setCount(count) {
+        document.getElementById("count").innerHTML = count
+        updateTotal()
+    }
+    function addCount() {
+        document.getElementById("count").innerHTML = parseInt(document.getElementById("count").innerHTML) + 1
+        updateTotal()
+    }
+    function removeCount() {
+        if (parseInt(document.getElementById("count").innerHTML) <= 0) return
+        document.getElementById("count").innerHTML = parseInt(document.getElementById("count").innerHTML) - 1
+        updateTotal()
+    }
+    function updateTotal() {
+        if (parseInt(document.getElementById("count").innerHTML) == 0) {
+            document.getElementById("total").classList.remove("revealed")
+            // document.getElementById("total").innerHTML = ""
+        } else {
+            document.getElementById("total").classList.add("revealed")
+            document.getElementById("total").innerHTML = `₱${(currentDishes[document.getElementById("menu-modal-card").getAttribute("data-index")].Price * parseInt(document.getElementById("count").innerHTML)).toFixed(2)}`
+        }
+    }
+    function updateModalCartCount() {
+        let cartCount = (JSON.parse(localStorage.getItem("cart")) || {})[document.getElementById("menu-modal-card").getAttribute("data-docId")]
+        if (cartCount !== undefined) {
+            document.getElementById("cart-count").classList.add("revealed")
+            document.getElementById("cart-count").innerHTML = `<i class="fa-solid fa-cart-shopping"></i> ${cartCount}`
+            document.getElementById("cart-count").classList.add("wiggle")
+            document.getElementById("cart-count").addEventListener("animationend", e => {
+                document.getElementById("cart-count").removeEventListener("animationend", this)
+                document.getElementById("cart-count").classList.remove("wiggle")
+            })
+        } else {
+            document.getElementById("cart-count").classList.remove("revealed")
+        }
+    }
+    function addToCart() {
+        if (parseInt(document.getElementById("count").innerHTML) <= 0) {
+            return
+        }
+        let count = parseInt(document.getElementById("count").innerHTML)
+        let docId = document.getElementById("menu-modal-card").getAttribute("data-docId")
+        // localStorage.removeItem("cart")
+        let cart = JSON.parse(localStorage.getItem("cart")) || {}
+        cart[docId] = cart[docId] !== undefined ? cart[docId]+count : count
+        localStorage.setItem("cart", JSON.stringify(cart))
+        document.getElementById("count").innerHTML = 0
+        document.getElementById("total").classList.remove("revealed")
+        updateModalCartCount()
+        updateCartNum()
+    }
+</script>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAB | Login</title>
+    <%- include("../components/init.ejs") %>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <img src="images/login_BG.jpg" alt="" class="blur-in" id="bg">
+    <%- include("../components/navbar.ejs") %>
+    <div id="wrapper">
+        <div id="container" class="fade-in">
+            <div id="logo">
+                <img src="images/BAB_Logo_Black.svg" alt="">
+                <br>
+                <span class="bold thailandesa center" style="font-size: xx-large;">BAYANI AGBAYANI</span>
+            </div>
+            <div id="content">
+                <h2 class="thailandesa">WELCOME BACK!</h2>
+                <span class="bold">Login</span>
+                <form id="form">
+                    <label for="email">Email</label>
+                    <br>
+                    <input type="email" class="one" name="Email" id="email">
+                    <br>
+                    <br>
+                    <label for="password">Password</label>
+                    <br>
+                    <input type="password" class="one" name="Password" id="password">
+                    <br>
+                    <br>
+                    <button class="one width-100" type="button" onclick="login()">Login</button>
+                </form>
+                <a class="button" href="">Forgot password?</a>
+                <span>Don't have an account? <a href="/signup" class="button">Sign Up</a></span>
+            </div>
+        </div>
+    </div>
+    <script>
+        ScrollReveal().reveal(".fade-in", {...fadeIn, delay: "300"})
+
+        function login() {
+            fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ Email: document.getElementById("email").value, Password: document.getElementById("password").value})
+            }).then(res => res.json().then(userCreds => {
+                console.log(userCreds)
+                window.location.href = "/"
+            }).catch(e => {
+                console.log("No such account")
+                console.log(e)
+            }))
+        }
+    </script>
+</body>
+</html>

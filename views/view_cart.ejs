@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAB | Your Cart</title>
+    <link rel="stylesheet" href="css/view_cart.css">
+    <%- include("../components/init.ejs") %>
+</head>
+<body>
+    <div id="bg-blob-1"></div>
+    <%- include("../components/navbar.ejs") %>
+    <div class="center">
+        <div class="container">
+            <div class="gap"></div>
+            <div class="gap"></div>
+            <h2 class="center thailandesa">YOUR CART</h2>
+            <div class="gap"></div>
+            <div id="content-wrapper">
+                <div id="cart-wrapper">
+                    <table id="cart-table" class="slide-up">
+                    </table>
+                    <div class="gap"></div>
+                    <a class="button slide-up" href="/">Add More</a>
+                </div>
+                <div id="summary-wrapper">
+                    <table id="summary-table">
+                        <tr>
+                            <th class="bold" colspan="2">Summary</th>
+                        </tr>
+                        <tr>
+                            <td class="bold">Subtotal</td>
+                            <td id="summary-subtotal">Subtotal</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Delivery</td>
+                            <td id="summary-delivery">Delivery</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Discounts</td>
+                            <td id="summary-discounts">Discounts</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Total Payable</td>
+                            <td class="bold" id="summary-total">Total Payable</td>
+                        </tr>
+                    </table>
+                    <div class="gap"></div>
+                    <button class="one width-100" onclick="checkOut()">Checkout</button>
+                    <div class="gap"></div>
+                    <div class="gap"></div>
+                    <div id="voucher-wrapper">
+                        <span class="bold">Voucher</span>
+                        <br>
+                        <input type="text" name="Code" id="voucher">
+                        <button class="three" onclick="checkCode()">Claim</button>
+                    </div>
+                </div>
+            </div>
+            <div class="gap"></div>
+            <div class="gap"></div>
+        </div>
+    </div>
+    <%- include("../components/footer.ejs") %>
+    <script>
+        let currentDishes = []
+        let usedVouchers = {}
+
+        let subtotal
+        let delivery
+        let discounts
+        let total
+
+        async function checkOut() {
+            // check if user is logged in
+            
+            // Revalidate vouchers
+            let res = await fetch("/api/validatevouchers", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(usedVouchers)
+            })
+            let data = await res.json()
+            if (data.length > 0) {
+                for (let invalidVoucher of data) delete usedVouchers[invalidVoucher]
+                updateSummary()
+                return
+            }
+        }
+
+        async function checkCode() {
+            let input = document.querySelector("#voucher")
+            if (input.value.length == 0) return
+            if (Object.keys(usedVouchers).includes(input.value.toUpperCase())) return
+            
+            fetch("/api/checkcode", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ Code: input.value })
+            }).then(res => res.json().then(data => {
+                console.log(data)
+                if (data.MinimumOrder > subtotal) return
+                usedVouchers[input.value.toUpperCase()] = data
+                updateSummary()
+                input.value = ""
+            }).catch(e => {
+                console.log("Invalid voucher")
+            }))
+        }
+        
+        function updateCart() {
+            currentDishes = []
+            fetch('/api/getcartdishes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: localStorage.getItem("cart")
+            }).then(res => res.json().then(dishes => {
+                let data = ""
+                for (let i = 0;i < dishes.length;i++) {
+                    let dish = dishes[i]
+                    data += `
+                        <tr data-index=${i}>
+                            <td class="dish-info">
+                                <button class="remove-button" onclick="removeItem(${i})">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                <img class="dish-image" src="${dish.StorageURL}" alt="">
+                                ${dish.Name}
+                            </td>
+                            <td class="dish-price">₱${dish.Price}</td>
+                            <td class="dish-quantity">
+                                <div class="counter">
+                                    <button class="minus" onclick="removeCount(${i})">
+                                        <span class="material-symbols-outlined">
+                                            remove
+                                        </span>
+                                    </button>
+                                    <span class="count">${dish.Count}</span>
+                                    <button class="add" onclick="addCount(${i})">
+                                        <span class="material-symbols-outlined">
+                                            add
+                                        </span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="dish-subtotal">₱${dish.Count * dish.Price}</td>
+                        </tr>
+                    `
+                }
+                document.getElementById("cart-table").innerHTML = `
+                    <tr>
+                        <th>Dish</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                    </tr>
+                    ${data}
+                `
+                currentDishes = dishes
+                updateSummary()
+            }))
+        }
+
+        function removeItem(index) {
+            let docId = currentDishes[index].DocID
+            let cart = JSON.parse(localStorage.getItem("cart"))
+            delete cart[docId]
+            localStorage.setItem("cart", JSON.stringify(cart))
+            updateCart()
+            updateCartNum()
+        }
+        function addCount(index) {
+            let count = document.querySelector(`[data-index="${index}"]`).querySelector(".count")
+            count.innerHTML = parseInt(count.innerHTML) + 1
+            let docId = currentDishes[index].DocID
+            let cart = JSON.parse(localStorage.getItem("cart"))
+            cart[docId] = count.innerHTML
+            currentDishes[index].Count = parseInt(count.innerHTML)
+            localStorage.setItem("cart", JSON.stringify(cart))
+            updateTotal(index)
+            updateCartNum()
+            updateSummary()
+        }
+        function removeCount(index) {
+            let count = document.querySelector(`[data-index="${index}"]`).querySelector(".count")
+            if (parseInt(count.innerHTML) <= 0) return
+            count.innerHTML = parseInt(count.innerHTML) - 1
+            if (parseInt(count.innerHTML) == 0) {
+                removeItem(index)
+            } else {
+                let docId = currentDishes[index].DocID
+                let cart = JSON.parse(localStorage.getItem("cart"))
+                cart[docId] = count.innerHTML
+                currentDishes[index].Count = parseInt(count.innerHTML)
+                localStorage.setItem("cart", JSON.stringify(cart))
+                updateTotal(index)
+                updateCartNum()
+                updateSummary()
+            }
+        }
+        function updateTotal(index) {
+            let subTotal = document.querySelector(`[data-index="${index}"]`).querySelector(".dish-subtotal")
+            let count = document.querySelector(`[data-index="${index}"]`).querySelector(".count")
+            subTotal.innerHTML = `₱${(currentDishes[index].Price * parseInt(count.innerHTML)).toFixed(2)}`
+        }
+        function updateSummary() {
+            let htmlSubtotal = document.querySelector("#summary-subtotal")
+            let htmlDelivery = document.querySelector("#summary-delivery")
+            let htmlDiscounts = document.querySelector("#summary-discounts")
+            let htmlTotal = document.querySelector("#summary-total")
+            subtotal = 0
+            delivery = 15
+            for (let dish of currentDishes) subtotal += parseInt(dish.Count) * parseInt(dish.Price)
+            let discounts = determineTotalDiscounts()
+            total = subtotal + delivery - discounts
+            htmlSubtotal.innerHTML = `₱${subtotal}`
+            htmlDelivery.innerHTML = `₱${delivery}`
+            htmlDiscounts.innerHTML = `₱${discounts}`
+            htmlTotal.innerHTML = `₱${total}`
+        }
+        function determineTotalDiscounts() {
+            let totalDiscount = 0
+            for (let code of Object.keys(usedVouchers)) {
+                if (usedVouchers[code].MinimumOrder > subtotal) {
+                    delete usedVouchers[code]
+                    continue
+                }
+                let type = usedVouchers[code].DiscountType
+                if (type == "Amount") {
+                    totalDiscount += usedVouchers[code].Discount
+                } else {
+                    totalDiscount += Math.min(subtotal * (usedVouchers[code].Discount/100), usedVouchers[code].MaximumDiscount || Number.MAX_SAFE_INTEGER)
+                }
+            }
+            return totalDiscount
+        }
+        updateCart()
+        ScrollReveal().reveal(".slide-up", {...slideUp, distance: "2rem"})
+    </script>
+</body>
+</html>

@@ -8,6 +8,51 @@
     src: url(../OpenSans.ttf);
 }
 
+@keyframes wiggle {
+    0% {
+        transform: rotate(0) scale(1);
+        color: var(--text-950);
+    }
+    20% {
+        transform: rotate(10deg) scale(1.02);
+    }
+    40% {
+        transform: rotate(-15deg) scale(1.07);
+    }
+    50% {
+        color: var(--primary-500);
+    }
+    60% {
+        transform: rotate(15deg) scale(1.1);
+    }
+    80% {
+        transform: rotate(-7deg) scale(1.04);
+    }
+    100% {
+        transform: rotate(0) scale(1);
+        color: var(--text-950);
+    }
+}
+
+@keyframes blurIn {
+    from {
+        filter: blur(10px);
+        transform: scale(1.1);
+    }
+    to {
+        filter: blur(0);
+        transform: scale(1);
+    }
+}
+
+.wiggle {
+    animation: wiggle .7s ease-out;
+}
+
+.blur-in {
+    animation: blurIn 1s cubic-bezier(.5, 0, 0, 1);
+}
+
 html[data-theme="light"] {
     --text-50: #faf3eb;
     --text-100: #f5e7d6;
@@ -68,6 +113,8 @@ html[data-theme="light"] {
     --accent-800: #153f51;
     --accent-900: #0a2029;
     --accent-950: #051014;
+
+    --error: #FF6464;
 }
 html[data-theme="dark"] {
     --text: #f1f1f1;
@@ -89,18 +136,60 @@ h1 {
     font-size: 48px;
 }
 
+input {
+    border: 1px solid var(--accent-200);
+    border-radius: 5px;
+    background-color: var(--accent-50);
+}
+
+input.one {
+    padding: .4rem;
+    border-radius: 20px;
+    border: 1px solid var(--primary-950);
+    width: 100%;
+    box-sizing: border-box;
+}
+
 button:hover {
     cursor: pointer;
 }
 
 button.one {
-    padding: 1rem 1.5rem 1rem 1.5rem;
+    padding: .5rem 1rem .5rem 1rem;
     border-radius: 100px;
-    border: none;
+    border: 1px solid var(--primary-500);
     background-color: var(--primary-500);
     font-weight: bold;
     font-size: 1rem;
     color: var(--text-50);
+    transition: all .5s cubic-bezier(0, 0, 0, 1);
+}
+button.one:hover {
+    background-color: var(--text-50);
+    color: var(--primary-500);
+    transform: scale(1.1);
+}
+button.one:active {
+    transform: scale(0.9);
+}
+
+a.button.one {
+    padding: .5rem 1rem .5rem 1rem;
+    border-radius: 100px;
+    border: 1px solid var(--primary-500);
+    background-color: var(--primary-500);
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--text-50);
+    transition: all .5s cubic-bezier(0, 0, 0, 1);
+}
+a.button.one:hover {
+    background-color: var(--text-50);
+    color: var(--primary-500);
+    transform: scale(1.1);
+}
+a.button.one:active {
+    transform: scale(0.9);
 }
 
 button.two {
@@ -109,6 +198,39 @@ button.two {
     font-weight: bold;
     font-size: 1rem;
     color: var(--primary-500);
+    transition: all .5s cubic-bezier(0, 0, 0, 1);
+}
+button.two:hover {
+    color: var(--accent-500);
+}
+
+button.three {
+    background-color: var(--accent-500);
+    font-weight: bold;
+    color: var(--text-50);
+    padding: .2rem .4rem .2rem .4rem;
+    border-radius: 5px;
+    border: none;
+    transition: all .5s cubic-bezier(0, 0, 0, 1);
+}
+button.three:hover {
+    transform: scale(1.1);
+}
+button.three:active {
+    transform: scale(0.9);
+}
+
+a.button {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--primary-500);
+    transition: all .5s cubic-bezier(0, 0, 0, 1);
+    text-decoration: none;
+}
+a.button:hover {
+    color: var(--accent-500);
 }
 
 .thailandesa {
@@ -211,6 +333,18 @@ button.two {
 #navbar a.nav-button:hover {
     font-size: larger;
     color: var(--primary-500);
+}
+
+#cart-button, #account-button {
+    transition: all .5s cubic-bezier(.25, 0, 0, 1);
+}
+#cart-button:hover, #account-button:hover {
+    color: var(--primary-500);
+}
+
+#footer {
+    width: 100vw;
+    height: 400px;
 }
 
 .container {
