@@ -11,19 +11,23 @@ app.use(express.static('public'))
 app.set('view engine', 'ejs')
 
 app.get('/', (req, res) => {
-    res.render('index')
+    res.render('index', { User: firebase.getUser() })
 })
 
 app.get('/cart', (req, res) => {
-    res.render('view_cart')
+    res.render('view_cart', { User: firebase.getUser() })
 })
 
 app.get('/login', (req, res) => {
-    res.render('login')
+    res.render('login', { User: firebase.getUser() })
 })
 
 app.get('/signup', (req, res) => {
-    res.render('signup')
+    res.render('signup', { User: firebase.getUser() })
+})
+
+app.get('/profile', (req, res) => {
+    res.render(firebase.getUser() !== undefined ? 'profile' : 'login', { User: firebase.getUser() })
 })
 
 app.post('/api/getdishes', async (req, res) => {
@@ -81,6 +85,11 @@ app.post('/api/usevouchers', async (req, res) => {
 
 app.post('/api/checkout', async (req, res) => {
     await firebase.checkOut(req.body.currentDishes, req.body.usedVouchers, req.body.delivery)
+    res.send("Done")
+})
+
+app.post('/api/addpurchase', async (req, res) => {
+    await firebase.addPurchase(req.body)
     res.send("Done")
 })
 

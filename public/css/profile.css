@@ -1,0 +1,32 @@
+#blob-background {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    width: 70vw;
+    height: 80vh;
+    background-color: var(--secondary-100);
+    border-bottom-left-radius: 100%;
+}
+
+#wrapper {
+    display: flex;
+}
+
+#sidebar {
+    width: 300px;
+    padding: 1rem;
+    z-index: 1;
+    height: 200vh;
+    position: relative;
+}
+
+#sidebar .content {
+    position: sticky;
+    top: 5rem;
+}
+
+#content {
+    flex-basis: 100%;
+    padding: 1rem;
+}

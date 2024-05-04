@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAB | Profile</title>
+    <link rel="stylesheet" href="css/profile.css">
+    <%- include("../components/init.ejs") %>
+</head>
+<body>
+    <div id="blob-background"></div>
+    <%- include("../components/navbar.ejs") %>
+    <div class="center">
+        <div id="wrapper" class="container">
+            <div id="sidebar">
+                <div class="content">
+                    <span id="greeting" class="bold">Hello, <%- User.displayName %>!</span>
+                </div>
+            </div>
+            <div id="content">Test2</div>
+        </div>
+    </div>
+    <script>
+    </script>
+</body>
+</html>

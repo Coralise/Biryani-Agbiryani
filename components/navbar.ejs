@@ -8,8 +8,8 @@
                 <a id="cart-button" class="clean bold" href="/cart">
                     <i class="fa-solid fa-cart-shopping"></i> 0
                 </a>
-                <a id="account-button" class="clean bold" href="/login">
-                    <i class="fa-solid fa-user"></i> Join
+                <a id="account-button" class="clean bold" href="<%- User === null ? "/login" : "/profile" %>">
+                    <i class="fa-solid fa-user"></i> <%- User === null ? "Login" : `Welcome, ${User.displayName}!` %>
                 </a>
             </div>
         </div>
@@ -28,12 +28,4 @@
     function logout() {
         fetch("/api/logout")
     }
-
-    fetch("api/getuser").then(res => res.json().then(user => {
-        document.querySelector("#account-button").innerHTML = `<i class="fa-solid fa-user"></i> Welcome, ${user.displayName}!`
-        // document.querySelector("#account-button").setAttribute("href", "/")
-        document.querySelector("#account-button").setAttribute("onclick", "logout()")
-    }).catch(e => {
-        document.querySelector("#account-button").innerHTML = `<i class="fa-solid fa-user"></i> Login`
-    }))
 </script>

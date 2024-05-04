@@ -76,7 +76,7 @@
             if (currentDishes.length == 0) return
             
             // check if user is logged in
-            fetch("/api/getuser").then(res => res.json().catch(e => {
+            await fetch("/api/getuser").then(res => res.json().catch(e => {
                 window.location.href = "/login"
                 return
             }))
@@ -119,7 +119,13 @@
             })
 
             // Add purchase to all dishes
-            // TODO
+            await fetch("/api/addpurchase", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(currentDishes)
+            })
 
             localStorage.removeItem("cart")
             window.location.href = "/"
@@ -158,7 +164,7 @@
                 body: localStorage.getItem("cart")
             }).then(res => res.json().then(dishes => {
                 let data = ""
-                for (let i = 0;i < dishes.length;i++) {
+                if (dishes.length > 0) for (let i = 0;i < dishes.length;i++) {
                     let dish = dishes[i]
                     data += `
                         <tr data-index=${i}>
@@ -186,6 +192,12 @@
                                 </div>
                             </td>
                             <td class="dish-subtotal">₱${dish.Count * dish.Price}</td>
+                        </tr>
+                    `
+                } else {
+                    data += `
+                        <tr>
+                            <td colspan="4">No items yet, <a class="button slide-up" href="/">add some</a>!</td>
                         </tr>
                     `
                 }

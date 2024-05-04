@@ -141,6 +141,7 @@ input {
     border: 1px solid var(--accent-200);
     border-radius: 5px;
     background-color: var(--accent-50);
+    padding: .2rem;
 }
 
 input.one {

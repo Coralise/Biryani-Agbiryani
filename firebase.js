@@ -77,7 +77,7 @@ function getUser() {
 async function login(email, pass) {
   try {
     let userCreds = await signInWithEmailAndPassword(auth, email, pass)
-    let userDetails = await getDoc(doc(db, "users", email))
+    let userDetails = await getDoc(doc(db, "users", email.toLowerCase()))
     return {...userCreds, details: userDetails.data()}
   } catch (e) {
     return undefined
@@ -92,11 +92,11 @@ async function signup(email, pass, nickname) {
       displayName: nickname
     })
 
-    await setDoc(doc(db, "users", email), {
+    await setDoc(doc(db, "users", email.toLowerCase()), {
       Admin: false
     })
 
-    let userDetails = await getDoc(doc(db, "users", email))
+    let userDetails = await getDoc(doc(db, "users", email.toLowerCase()))
     return {...userCreds, details: userDetails.data()}
   } catch (e) {
     return undefined
@@ -117,7 +117,20 @@ async function checkOut(currentDishes, usedVouchers, deliveryFee) {
     UsedVouchers: Object.keys(usedVouchers),
     DeliveryFee: deliveryFee
   })
-} 
+}
+
+async function addPurchase(dishes) {
+  let promises = []
+  for (let dish of dishes) {
+    promises.push((async () => {
+      let details = (await getDoc(doc(db, "dishes", dish.DocID))).data()
+      await updateDoc(doc(db, "dishes", dish.DocID), {
+        Purchases: parseInt(details.Purchases) + parseInt(dish.Count)
+      })
+    })())
+  }
+  await Promise.all(promises)
+}
 
 export default {
     app,
@@ -133,5 +146,6 @@ export default {
     signup,
     logout,
     useVouchers,
-    checkOut
+    checkOut,
+    addPurchase
 }
