@@ -1,43 +1,50 @@
-[debug] [2024-05-04T00:48:40.271Z] ----------------------------------------------------------------------
-[debug] [2024-05-04T00:48:40.273Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\wayne\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
-[debug] [2024-05-04T00:48:40.274Z] CLI Version:   13.7.5
-[debug] [2024-05-04T00:48:40.274Z] Platform:      win32
-[debug] [2024-05-04T00:48:40.274Z] Node Version:  v20.10.0
-[debug] [2024-05-04T00:48:40.274Z] Time:          Sat May 04 2024 08:48:40 GMT+0800 (Philippine Standard Time)
-[debug] [2024-05-04T00:48:40.274Z] ----------------------------------------------------------------------
+[debug] [2024-05-04T00:56:15.037Z] ----------------------------------------------------------------------
+[debug] [2024-05-04T00:56:15.040Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\wayne\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-04T00:56:15.040Z] CLI Version:   13.7.5
+[debug] [2024-05-04T00:56:15.041Z] Platform:      win32
+[debug] [2024-05-04T00:56:15.041Z] Node Version:  v20.10.0
+[debug] [2024-05-04T00:56:15.041Z] Time:          Sat May 04 2024 08:56:15 GMT+0800 (Philippine Standard Time)
+[debug] [2024-05-04T00:56:15.041Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2024-05-04T00:48:40.276Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
-[debug] [2024-05-04T00:48:40.375Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2024-05-04T00:48:40.375Z] > authorizing via signed-in user (waynegabule@gmail.com)
-[debug] [2024-05-04T00:48:40.375Z] [iam] checking project biryani-agbiryani for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
-[debug] [2024-05-04T00:48:40.376Z] > refreshing access token with scopes: []
-[debug] [2024-05-04T00:48:40.377Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
-[debug] [2024-05-04T00:48:40.377Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2024-05-04T00:48:40.602Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
-[debug] [2024-05-04T00:48:40.602Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2024-05-04T00:48:40.615Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/biryani-agbiryani:testIamPermissions [none]
-[debug] [2024-05-04T00:48:40.615Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/biryani-agbiryani:testIamPermissions x-goog-quota-user=projects/biryani-agbiryani
-[debug] [2024-05-04T00:48:40.615Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/biryani-agbiryani:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
-[debug] [2024-05-04T00:48:40.835Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
-[debug] [2024-05-04T00:48:40.835Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
-[debug] [2024-05-04T00:48:41.662Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/biryani-agbiryani:testIamPermissions 200
-[debug] [2024-05-04T00:48:41.662Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/biryani-agbiryani:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
-[debug] [2024-05-04T00:48:41.663Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/biryani-agbiryani [none]
-[debug] [2024-05-04T00:48:42.311Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/biryani-agbiryani 200
-[debug] [2024-05-04T00:48:42.311Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/biryani-agbiryani {"projectId":"biryani-agbiryani","projectNumber":"1059775110087","displayName":"Biryani Agbiryani","name":"projects/biryani-agbiryani","resources":{"hostingSite":"biryani-agbiryani","storageBucket":"biryani-agbiryani.appspot.com","locationId":"asia-southeast1"},"state":"ACTIVE","etag":"1_5d9e5a0a-928c-4be7-ac88-8b750f3ba05b"}
+[debug] [2024-05-04T00:56:15.106Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-04T00:56:15.106Z] > authorizing via signed-in user (waynegabule@gmail.com)
+[debug] [2024-05-04T00:56:15.107Z] [iam] checking project biryani-agbiryani for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2024-05-04T00:56:15.108Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/biryani-agbiryani:testIamPermissions [none]
+[debug] [2024-05-04T00:56:15.108Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/biryani-agbiryani:testIamPermissions x-goog-quota-user=projects/biryani-agbiryani
+[debug] [2024-05-04T00:56:15.109Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/biryani-agbiryani:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2024-05-04T00:56:16.226Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/biryani-agbiryani:testIamPermissions 200
+[debug] [2024-05-04T00:56:16.226Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/biryani-agbiryani:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2024-05-04T00:56:16.227Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/biryani-agbiryani [none]
+[debug] [2024-05-04T00:56:16.888Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/biryani-agbiryani 200
+[debug] [2024-05-04T00:56:16.888Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/biryani-agbiryani {"projectId":"biryani-agbiryani","projectNumber":"1059775110087","displayName":"Biryani Agbiryani","name":"projects/biryani-agbiryani","resources":{"hostingSite":"biryani-agbiryani","storageBucket":"biryani-agbiryani.appspot.com","locationId":"asia-southeast1"},"state":"ACTIVE","etag":"1_5d9e5a0a-928c-4be7-ac88-8b750f3ba05b"}
 [info] 
 [info] === Deploying to 'biryani-agbiryani'...
 [info] 
 [info] i  deploying storage, firestore, hosting 
 [info] i  storage: ensuring required API firebasestorage.googleapis.com is enabled... 
-[debug] [2024-05-04T00:48:42.315Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/biryani-agbiryani/services/firebasestorage.googleapis.com [none]
-[debug] [2024-05-04T00:48:42.315Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/biryani-agbiryani/services/firebasestorage.googleapis.com x-goog-quota-user=projects/biryani-agbiryani
-[debug] [2024-05-04T00:48:43.716Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/biryani-agbiryani/services/firebasestorage.googleapis.com 200
-[debug] [2024-05-04T00:48:43.716Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/biryani-agbiryani/services/firebasestorage.googleapis.com [omitted]
+[debug] [2024-05-04T00:56:16.892Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/biryani-agbiryani/services/firebasestorage.googleapis.com [none]
+[debug] [2024-05-04T00:56:16.892Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/biryani-agbiryani/services/firebasestorage.googleapis.com x-goog-quota-user=projects/biryani-agbiryani
+[debug] [2024-05-04T00:56:18.298Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/biryani-agbiryani/services/firebasestorage.googleapis.com 200
+[debug] [2024-05-04T00:56:18.298Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/biryani-agbiryani/services/firebasestorage.googleapis.com [omitted]
 [info] +  storage: required API firebasestorage.googleapis.com is enabled 
-[debug] [2024-05-04T00:48:43.717Z] >>> [apiv2][query] GET https://firebasestorage.googleapis.com/v1alpha/projects/biryani-agbiryani/defaultBucket [none]
-[debug] [2024-05-04T00:48:45.524Z] <<< [apiv2][status] GET https://firebasestorage.googleapis.com/v1alpha/projects/biryani-agbiryani/defaultBucket 200
-[debug] [2024-05-04T00:48:45.524Z] <<< [apiv2][body] GET https://firebasestorage.googleapis.com/v1alpha/projects/biryani-agbiryani/defaultBucket {"name":"projects/biryani-agbiryani/defaultBucket","location":"ASIA-SOUTHEAST1","bucket":{"name":"projects/biryani-agbiryani/buckets/biryani-agbiryani.appspot.com"}}
+[debug] [2024-05-04T00:56:18.299Z] >>> [apiv2][query] GET https://firebasestorage.googleapis.com/v1alpha/projects/biryani-agbiryani/defaultBucket [none]
+[debug] [2024-05-04T00:56:20.409Z] <<< [apiv2][status] GET https://firebasestorage.googleapis.com/v1alpha/projects/biryani-agbiryani/defaultBucket 200
+[debug] [2024-05-04T00:56:20.409Z] <<< [apiv2][body] GET https://firebasestorage.googleapis.com/v1alpha/projects/biryani-agbiryani/defaultBucket {"name":"projects/biryani-agbiryani/defaultBucket","location":"ASIA-SOUTHEAST1","bucket":{"name":"projects/biryani-agbiryani/buckets/biryani-agbiryani.appspot.com"}}
 [info] i  firebase.storage: checking storage.rules for compilation errors... 
-[debug] [2024-05-04T00:48:45.526Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/biryani-agbiryani:test [none]
-[debug] [2024-05-04T00:48:45.527Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/biryani-agbiryani:test [omitted]
+[debug] [2024-05-04T00:56:20.411Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/biryani-agbiryani:test [none]
+[debug] [2024-05-04T00:56:20.411Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/biryani-agbiryani:test [omitted]
+[debug] [2024-05-04T00:56:21.938Z] <<< [apiv2][status] POST https://firebaserules.googleapis.com/v1/projects/biryani-agbiryani:test 200
+[debug] [2024-05-04T00:56:21.938Z] <<< [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/biryani-agbiryani:test {}
+[info] +  firebase.storage: rules file storage.rules compiled successfully 
+[info] i  firestore: reading indexes from firestore.indexes.json... 
+[info] i  cloud.firestore: checking firestore.rules for compilation errors... 
+[debug] [2024-05-04T00:56:21.940Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/biryani-agbiryani:test [none]
+[debug] [2024-05-04T00:56:21.940Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/biryani-agbiryani:test [omitted]
+[debug] [2024-05-04T00:56:23.279Z] <<< [apiv2][status] POST https://firebaserules.googleapis.com/v1/projects/biryani-agbiryani:test 200
+[debug] [2024-05-04T00:56:23.279Z] <<< [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/biryani-agbiryani:test {}
+[info] +  cloud.firestore: rules file firestore.rules compiled successfully 
+[debug] [2024-05-04T00:56:23.283Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/biryani-agbiryani/versions [none]
+[debug] [2024-05-04T00:56:23.283Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/biryani-agbiryani/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2024-05-04T00:56:24.975Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/biryani-agbiryani/versions 200
+[debug] [2024-05-04T00:56:24.975Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/biryani-agbiryani/versions {"name":"projects/1059775110087/sites/biryani-agbiryani/versions/be9ef1c599ee732f","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2024-05-04T00:56:24.977Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/biryani-agbiryani/releases pageSize=10&pageToken=

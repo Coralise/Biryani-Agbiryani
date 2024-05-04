@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
-import { getFirestore, collection, getDoc, doc, getDocs, query, where, setDoc } from "firebase/firestore";
+import { getFirestore, collection, getDoc, doc, getDocs, query, where, setDoc, updateDoc } from "firebase/firestore";
 import { browserLocalPersistence, createUserWithEmailAndPassword, getAuth, setPersistence, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyBukdTdi8A-hAR8Bp4X-r_FD3UwX50evJk",
@@ -57,6 +57,19 @@ async function validateVouchers(usedVouchers) {
   return invalidVouchers
 }
 
+async function useVoucher(voucher) {
+  let details = (await getDoc(doc(db, "vouchers", voucher))).data()
+  await updateDoc(doc(db, "vouchers", voucher), {RemainingUses: parseInt(details.RemainingUses) - 1})
+}
+
+async function useVouchers(usedVouchers) {
+  let promises = []
+  for (let voucher of Object.keys(usedVouchers)) {
+    promises.push(useVoucher(voucher))
+  }
+  await Promise.all(promises)
+}
+
 function getUser() {
   return auth.currentUser
 }
@@ -98,6 +111,14 @@ async function logout() {
   })
 }
 
+async function checkOut(currentDishes, usedVouchers, deliveryFee) {
+  await setDoc(doc(db, `users/${auth.currentUser.email}/history`, Date.now().toString()), {
+    Dishes: currentDishes,
+    UsedVouchers: Object.keys(usedVouchers),
+    DeliveryFee: deliveryFee
+  })
+} 
+
 export default {
     app,
     storage,
@@ -110,5 +131,7 @@ export default {
     getUser,
     login,
     signup,
-    logout
+    logout,
+    useVouchers,
+    checkOut
 }

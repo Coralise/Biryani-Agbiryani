@@ -74,6 +74,16 @@ app.get('/api/logout', async (req, res) => {
     res.send((await firebase.logout()))
 })
 
+app.post('/api/usevouchers', async (req, res) => {
+    await firebase.useVouchers(req.body)
+    res.send("Done")
+})
+
+app.post('/api/checkout', async (req, res) => {
+    await firebase.checkOut(req.body.currentDishes, req.body.usedVouchers, req.body.delivery)
+    res.send("Done")
+})
+
 app.listen(port, () => {
     console.log("Listening on port", port)
 })

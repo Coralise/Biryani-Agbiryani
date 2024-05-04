@@ -26,7 +26,7 @@
                 <div id="summary-wrapper">
                     <table id="summary-table">
                         <tr>
-                            <th class="bold" colspan="2">Summary</th>
+                            <th class="bold" colspan="2" style="color: var(--primary-500);">Summary</th>
                         </tr>
                         <tr>
                             <td class="bold">Subtotal</td>
@@ -50,7 +50,7 @@
                     <div class="gap"></div>
                     <div class="gap"></div>
                     <div id="voucher-wrapper">
-                        <span class="bold">Voucher</span>
+                        <span class="bold" style="color: var(--accent-500)">Voucher</span>
                         <br>
                         <input type="text" name="Code" id="voucher">
                         <button class="three" onclick="checkCode()">Claim</button>
@@ -72,7 +72,14 @@
         let total
 
         async function checkOut() {
+            // check if there are any dishes
+            if (currentDishes.length == 0) return
+            
             // check if user is logged in
+            fetch("/api/getuser").then(res => res.json().catch(e => {
+                window.location.href = "/login"
+                return
+            }))
             
             // Revalidate vouchers
             let res = await fetch("/api/validatevouchers", {
@@ -88,6 +95,35 @@
                 updateSummary()
                 return
             }
+
+            // use vouchers
+            await fetch("/api/usevouchers", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(usedVouchers)
+            })
+
+            // Log to user history
+            await fetch("/api/checkout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    currentDishes: currentDishes,
+                    usedVouchers: usedVouchers,
+                    delivery: delivery
+                })
+            })
+
+            // Add purchase to all dishes
+            // TODO
+
+            localStorage.removeItem("cart")
+            window.location.href = "/"
+
         }
 
         async function checkCode() {
@@ -102,8 +138,8 @@
                 },
                 body: JSON.stringify({ Code: input.value })
             }).then(res => res.json().then(data => {
-                console.log(data)
                 if (data.MinimumOrder > subtotal) return
+                delete data["RemainingUses"]
                 usedVouchers[input.value.toUpperCase()] = data
                 updateSummary()
                 input.value = ""

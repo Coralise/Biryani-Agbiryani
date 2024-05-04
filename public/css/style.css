@@ -130,6 +130,7 @@ body {
     color: var(--text-950);
     background-color: var(--background-50);
     margin: 0;
+    overflow-x: hidden;
 }
 
 h1 {
