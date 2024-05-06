@@ -114,7 +114,7 @@ async function logout() {
 async function checkOut(currentDishes, usedVouchers, deliveryFee) {
   await setDoc(doc(db, `users/${auth.currentUser.email}/history`, Date.now().toString()), {
     Dishes: currentDishes,
-    UsedVouchers: Object.keys(usedVouchers),
+    UsedVouchers: usedVouchers,
     DeliveryFee: deliveryFee
   })
 }
@@ -131,6 +131,18 @@ async function addPurchase(dishes) {
   }
   await Promise.all(promises)
 }
+
+// async function getOrderHistory(email) {
+//   const historyColl = collection(db, `users/${email}/history`)
+//   const docsRef = await getDocs(historyColl)
+//   const history = docsRef.docs
+//   const prices = history.Dishes.map(dish => parseInt(dish.Price) * parseInt(dish.Count))
+//   let subtotal = 0
+//   for (let price of prices) subtotal += price
+//   const subDiscounts = history.
+//   let discounts = 0
+//   return history.map(e => {return {...e.data(), Date: e.id}})
+// }
 
 export default {
     app,
