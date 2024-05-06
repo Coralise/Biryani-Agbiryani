@@ -1,9 +1,6 @@
-// import express from 'express'
-// import bodyParser from 'body-parser'
-// import firebase from './firebase.js'
-const express = require('express')
-const bodyParser = require('body-parser')
-const firebase = require('./firebase.js')
+import express from 'express'
+import bodyParser from 'body-parser'
+import firebase from './firebase.js'
 const port = process.env.PORT || 3000
 
 const app = express()

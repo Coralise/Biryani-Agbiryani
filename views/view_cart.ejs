@@ -8,6 +8,23 @@
     <%- include("../components/init.ejs") %>
 </head>
 <body>
+    <div id="order-modal-background" onclick="toggleModal(true)"></div>
+    <div id="order-modal">
+        <img id="order-modal-image" src="images/order_otw.gif" alt="">
+        <br>
+        <br>
+        <br>
+        <div>
+            <span id="order-otw">Your order is on its way!</span>
+            <br>
+            <br>
+            <br>
+            <span id="ty">Thank you for choosing Biryani Agbiryani!</span>
+        </div>
+        <br>
+        <br>
+        <button class="one" onclick="toggleModal(true)">You're welcome!</button>
+    </div>
     <div id="bg-blob-1"></div>
     <%- include("../components/navbar.ejs") %>
     <div class="center">
@@ -71,6 +88,19 @@
         let discounts
         let total
 
+        function toggleModal(refresh = false) {
+            if (!document.getElementById("order-modal").classList.contains("revealed")) {
+                document.getElementById("order-modal").classList.add("revealed")
+                document.getElementById("order-modal-background").classList.add("revealed")
+            } else {
+                document.getElementById("order-modal").classList.remove("revealed")
+                document.getElementById("order-modal-background").classList.remove("revealed")
+            }
+            if (refresh) {
+                window.location.href = "/cart"
+            }
+        }
+
         async function checkOut() {
             // check if there are any dishes
             if (currentDishes.length == 0) return
@@ -128,8 +158,8 @@
             })
 
             localStorage.removeItem("cart")
-            window.location.href = "/"
-
+            // window.location.href = "/"
+            toggleModal()
         }
 
         async function checkCode() {

@@ -10,14 +10,20 @@
 <body>
     <div id="blob-background"></div>
     <%- include("../components/navbar.ejs") %>
+    <div id="blob-background-two"></div>
     <div class="center">
         <div id="wrapper" class="container">
             <div id="sidebar">
                 <div class="content">
                     <span id="greeting" class="bold">Hello, <%- User.displayName %>!</span>
+                    <div class="gap"></div>
+                    <button class="list-tile"><i class="fa-solid fa-user icon"></i> <span class="text">Profile</span></button>
+                    <button class="list-tile"><i class="fa-solid fa-table-list icon"></i> <span class="text">Order History</span></button>
                 </div>
             </div>
-            <div id="content">Test2</div>
+            <div id="content">
+                <%- include('./profile_screens/details.ejs') %>
+            </div>
         </div>
     </div>
     <script>

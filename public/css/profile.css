@@ -9,6 +9,17 @@
     border-bottom-left-radius: 100%;
 }
 
+#blob-background-two {
+    position: fixed;
+    z-index: -1;
+    bottom: 0;
+    left: 0;
+    width: 30vw;
+    height: 80vh;
+    background-color: var(--secondary-100);
+    border-top-right-radius: 100%;
+}
+
 #wrapper {
     display: flex;
 }
@@ -17,16 +28,37 @@
     width: 300px;
     padding: 1rem;
     z-index: 1;
-    height: 200vh;
     position: relative;
 }
 
 #sidebar .content {
     position: sticky;
-    top: 5rem;
+    top: 8rem;
 }
 
 #content {
     flex-basis: 100%;
-    padding: 1rem;
+    padding: 4rem 1rem 1rem 1rem;
+}
+
+button.list-tile {
+    background-color: transparent;
+    padding: .5rem 0 .5rem 1rem;
+    font-weight: bold;
+    transition: all .5s cubic-bezier(.5, 0, 0, 1);
+    border: 0;
+    text-align: left;
+    font-size: 16px;
+    width: 100%;
+    transform-origin: left;
+}
+button.list-tile:hover {
+    transform: scale(1.1);
+}
+
+button.list-tile i.icon {
+    transition: all .5s cubic-bezier(.5, 0, 0, 1);
+}
+button.list-tile:hover > i.icon {
+    color: var(--primary-500);
 }

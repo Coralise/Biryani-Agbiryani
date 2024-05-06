@@ -1,3 +1,60 @@
+#order-modal-background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .3);
+    z-index: 9;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(.5, 0, 0, 1);
+}
+
+#order-modal {
+    position: fixed;
+    width: 400px;
+    height: 500px;
+    background-color: var(--secondary-50);
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    padding: 1rem;
+    border-radius: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) translateY(1rem);
+    transition: all 0.5s cubic-bezier(.5, 0, 0, 1);
+}
+#order-modal.revealed {
+    transform: translate(-50%, -50%);
+}
+
+#order-modal.revealed, #order-modal-background.revealed {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#order-modal-image {
+    height: 50%;
+    width: 100%;
+    object-fit: cover;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    transform: scaleX(-1);
+}
+
+#order-otw {
+    font-weight: bold;
+    color: var(--primary-500);
+    font-size: x-large;
+}
+
 #cart-table {
     width: 100%;
     border-collapse: collapse;

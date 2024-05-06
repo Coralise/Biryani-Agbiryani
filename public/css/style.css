@@ -201,6 +201,8 @@ button.two {
     font-size: 1rem;
     color: var(--primary-500);
     transition: all .5s cubic-bezier(0, 0, 0, 1);
+    padding: 0;
+    text-align: left;
 }
 button.two:hover {
     color: var(--accent-500);
@@ -342,6 +344,14 @@ a.button:hover {
 }
 #cart-button:hover, #account-button:hover {
     color: var(--primary-500);
+}
+
+#navbar-prof-pic {
+    width: 2rem;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 100%;
 }
 
 #footer {
