@@ -53,6 +53,10 @@
 
             document.querySelector(admin ? "#admin-order-history-wrapper" : "#order-history-wrapper").appendChild(orderHistory)
         }
+        console.log(document.querySelector(admin ? "#admin-order-history-wrapper" : "#order-history-wrapper").childNodes)
+        if (document.querySelector(admin ? "#admin-order-history-wrapper" : "#order-history-wrapper").childNodes.length <= 1) {
+            document.querySelector(admin ? "#admin-order-history-wrapper" : "#order-history-wrapper").innerHTML = "<div style='text-align: center;'>No history yet!</div>"
+        }
     }
 
     function getTimeSince(unix) {

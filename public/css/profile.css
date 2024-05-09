@@ -90,10 +90,8 @@ button.list-tile:hover > i.icon {
     transition: all .5s cubic-bezier(0, 0, 0, 1);
     transform: translateX(1rem);
     z-index: 0;
-    overflow: hidden
 }
 .content-wrapper.revealed {
-    overflow: auto;
     z-index: 1;
     opacity: 1;
     pointer-events: all;
@@ -128,6 +126,7 @@ button.list-tile:hover > i.icon {
     padding: 1rem;
     margin-bottom: 1rem;
     height: 150px;
+    z-index: 2;
 }
 
 .order-history img {
