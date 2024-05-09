@@ -27,7 +27,13 @@ app.get('/signup', (req, res) => {
 })
 
 app.get('/profile', (req, res) => {
-    res.render(firebase.getUser() !== undefined ? 'profile' : 'login', { User: firebase.getUser() })
+    firebase.isAdmin().then(isAdmin => {
+        if (firebase.getUser() !== undefined) {
+            res.render("profile", { User: firebase.getUser(), Screen: "details", isAdmin: isAdmin })
+        } else {
+            res.render('login', { User: firebase.getUser() })
+        }
+    })
 })
 
 app.post('/api/getdishes', async (req, res) => {
@@ -91,6 +97,14 @@ app.post('/api/checkout', async (req, res) => {
 app.post('/api/addpurchase', async (req, res) => {
     await firebase.addPurchase(req.body)
     res.send("Done")
+})
+
+app.post('/api/getorderhistory', async (req, res) => {
+    res.send(await firebase.getOrderHistory(req.body.Email))
+})
+
+app.post('/api/admin/getallorderhistory', async (req, res) => {
+    res.send(await firebase.getAllOrderHistory())
 })
 
 app.listen(port, () => {

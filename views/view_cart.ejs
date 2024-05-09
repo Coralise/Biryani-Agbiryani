@@ -107,8 +107,10 @@
             
             // check if user is logged in
             const user = await fetch("/api/getuser")
-            if (user.data === undefined) {
-                console.log("HERE")
+            try {
+                await user.json()
+            } catch (e) {
+                console.log("HERE json")
                 window.location.href = "/login"
                 return
             }

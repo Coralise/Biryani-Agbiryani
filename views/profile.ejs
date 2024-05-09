@@ -7,26 +7,61 @@
     <link rel="stylesheet" href="css/profile.css">
     <%- include("../components/init.ejs") %>
 </head>
-<body>
+<body style="overflow: scroll; overflow-x: hidden;">
+    <div id="order-history-modal-background" onclick="dismissModal()"></div>
+    <div id="order-history-modal">
+    </div>
     <div id="blob-background"></div>
     <%- include("../components/navbar.ejs") %>
     <div id="blob-background-two"></div>
     <div class="center">
         <div id="wrapper" class="container">
+            <div id="sidebar-pseudocontainer"></div>
             <div id="sidebar">
                 <div class="content">
                     <span id="greeting" class="bold">Hello, <%- User.displayName %>!</span>
                     <div class="gap"></div>
-                    <button class="list-tile"><i class="fa-solid fa-user icon"></i> <span class="text">Profile</span></button>
-                    <button class="list-tile"><i class="fa-solid fa-table-list icon"></i> <span class="text">Order History</span></button>
+                    <button class="list-tile <%= Screen == "details" ? "selected" : "" %>" onclick="changeScreen(this, 'details')"><i class="fa-solid fa-user icon"></i> <div class="text">Profile</div></button>
+                    <button class="list-tile <%= Screen == "history" ? "selected" : "" %>" onclick="changeScreen(this, 'history')"><i class="fa-solid fa-table-list icon"></i> <div class="text">Your Order History</div></button>
+                    <% if (isAdmin) { %>
+                        <div class="gap"></div>
+                        <h4>Admin Console</h4>
+                        <button class="list-tile <%= Screen == "admin_history" ? "selected" : "" %>" onclick="changeScreen(this, 'admin_history')"><i class="fa-solid fa-table-list icon"></i> <div class="text">All Order Histories</div></button>
+                    <% } %>
+                    <div class="gap"></div>
+                    <div class="gap"></div>
+                    <div class="gap"></div>
+                    <button id="logout-button" onclick="logout()">Logout</button>
                 </div>
             </div>
             <div id="content">
                 <%- include('./profile_screens/details.ejs') %>
+                <%- include('./profile_screens/history.ejs') %>
+                <% if (isAdmin) { %>
+                    <%- include('./profile_screens/admin_history.ejs') %>
+                <% } %>
             </div>
         </div>
     </div>
     <script>
+        async function logout() {
+            await fetch("/api/logout")
+            window.location.href = "/login"
+        }
+
+        function changeScreen(tile, screen) {
+            if (tile !== undefined) {
+                document.querySelectorAll(".list-tile").forEach(e => e.classList.remove("selected"))
+                tile.classList.add("selected")
+            }
+            
+            document.querySelectorAll(".content-wrapper").forEach(e => e.classList.remove("revealed"))
+            const wrapperDiv = document.querySelector(`#${screen}-wrapper`)
+            wrapperDiv.classList.add("revealed")
+            
+        }
+
+        changeScreen(undefined, "<%= Screen %>")
     </script>
 </body>
 </html>

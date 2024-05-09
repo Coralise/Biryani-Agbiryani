@@ -1,4 +1,4 @@
-<div style="display: grid; grid-template-columns: 50% 50%;">
+<div id="details-wrapper" class="content-wrapper" style="display: grid; grid-template-columns: 50% 50%;">
     <div>
         <span class="bold">Display Name: </span><%= User.displayName %>
         <br>
@@ -12,3 +12,7 @@
         
     </div>
 </div>
+
+<script>
+    ScrollReveal().reveal(".slide-up", slideUp)
+</script>

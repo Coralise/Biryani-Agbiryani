@@ -175,6 +175,25 @@ button.one:active {
     transform: scale(0.9);
 }
 
+button.four {
+    padding: .5rem 1rem .5rem 1rem;
+    border-radius: .5rem;
+    border: 1px solid var(--primary-500);
+    font-weight: bold;
+    font-size: 1rem;
+    background-color: transparent;
+    color: var(--primary-500);
+    transition: all .5s cubic-bezier(0, 0, 0, 1);
+}
+button.four:hover {
+    background-color: var(--primary-500);
+    color: var(--text-50);
+    transform: scale(1.1);
+}
+button.four:active {
+    transform: scale(0.9);
+}
+
 a.button.one {
     padding: .5rem 1rem .5rem 1rem;
     border-radius: 100px;
@@ -237,6 +256,20 @@ a.button:hover {
     color: var(--accent-500);
 }
 
+.vertical-divider {
+    width: 2px;
+    height: 100%;
+    margin: .5rem;
+    background: radial-gradient(circle, var(--text-950) 0%, rgba(255,255,255,0) 100%);
+}
+
+.horizontal-divider {
+    height: 1px;
+    width: 100%;
+    margin: .5rem;
+    background: radial-gradient(circle, var(--text-950) 0%, rgba(255,255,255,0) 100%);
+}
+
 .thailandesa {
     font-family: Thailandesa, sans-serif;
 }
@@ -277,6 +310,10 @@ a.button:hover {
     text-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
 }
 
+.text-right {
+    text-align: right;
+}
+
 .center {
     display: flex;
     justify-content: center;
@@ -312,8 +349,15 @@ a.button:hover {
     font-weight: 900;
 }
 
+#pseudo-navbar {
+    width: 100%;
+    height: 3rem;
+    padding: .5rem 0 .5rem 0;
+    top: 0;
+}
+
 #navbar {
-    position: sticky;
+    position: fixed;
     width: 100%;
     height: 3rem;
     padding: .5rem 0 .5rem 0;
@@ -360,7 +404,7 @@ a.button:hover {
 }
 
 .container {
-    width: 60%;
+    width: 1000px;
 }
 
 .gap {

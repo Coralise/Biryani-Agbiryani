@@ -59,7 +59,7 @@ async function validateVouchers(usedVouchers) {
 
 async function useVoucher(voucher) {
   let details = (await getDoc(doc(db, "vouchers", voucher))).data()
-  await updateDoc(doc(db, "vouchers", voucher), {RemainingUses: parseInt(details.RemainingUses) - 1})
+  await updateDoc(doc(db, "vouchers", voucher), {RemainingUses: parseFloat(details.RemainingUses) - 1})
 }
 
 async function useVouchers(usedVouchers) {
@@ -112,7 +112,7 @@ async function logout() {
 }
 
 async function checkOut(currentDishes, usedVouchers, deliveryFee) {
-  await setDoc(doc(db, `users/${auth.currentUser.email}/history`, Date.now().toString()), {
+  await setDoc(doc(db, `users/${auth.currentUser.email}/history/${Date.now().toString()}`), {
     Dishes: currentDishes,
     UsedVouchers: usedVouchers,
     DeliveryFee: deliveryFee
@@ -125,24 +125,76 @@ async function addPurchase(dishes) {
     promises.push((async () => {
       let details = (await getDoc(doc(db, "dishes", dish.DocID))).data()
       await updateDoc(doc(db, "dishes", dish.DocID), {
-        Purchases: parseInt(details.Purchases) + parseInt(dish.Count)
+        Purchases: parseFloat(details.Purchases) + parseFloat(dish.Count)
       })
     })())
   }
   await Promise.all(promises)
 }
 
-// async function getOrderHistory(email) {
-//   const historyColl = collection(db, `users/${email}/history`)
-//   const docsRef = await getDocs(historyColl)
-//   const history = docsRef.docs
-//   const prices = history.Dishes.map(dish => parseInt(dish.Price) * parseInt(dish.Count))
-//   let subtotal = 0
-//   for (let price of prices) subtotal += price
-//   const subDiscounts = history.
-//   let discounts = 0
-//   return history.map(e => {return {...e.data(), Date: e.id}})
-// }
+async function getOrderHistory(email) {
+  const historyColl = collection(db, `users/${email}/history`)
+  const docsRef = await getDocs(historyColl)
+  const history = docsRef.docs.map(d => { return {...d.data(), Date: d.id, Email: email} })
+
+  let parsedHistory =  []
+  for (let date of Object.keys(history)) {
+    let historyEntry = history[date]
+    let dishes = historyEntry.Dishes
+    const prices = dishes.map(dish => parseFloat(dish.Price) * parseFloat(dish.Count))
+    let subtotal = 0
+    for (let price of prices) subtotal += price
+    let totalDiscount = 0
+    let vouchers = historyEntry.UsedVouchers
+    for (let key of Object.keys(vouchers)) {
+      let voucher = vouchers[key]
+      if (voucher.DiscountType == "Amount") {
+        totalDiscount += parseFloat(voucher.Discount)
+      } else {
+        totalDiscount += Math.min(subtotal * (parseFloat(voucher.Discount)/100), parseFloat(voucher.MaximumDiscount) || Number.MAX_SAFE_INTEGER)
+      }
+    }
+    let total = subtotal + parseFloat(historyEntry.DeliveryFee) - totalDiscount
+
+    parsedHistory.push({...historyEntry, Subtotal: subtotal, TotalDiscount: totalDiscount, Total: total, FormattedDate: getFormattedDate(parseInt(historyEntry.Date))})
+  }
+  return parsedHistory
+}
+
+async function getAllOrderHistory() {
+  const usersColl = collection(db, "users")
+  const docsRef = await getDocs(usersColl)
+  const users = docsRef.docs.map(d => d.id)
+  let promises = []
+  for (let user of users) {
+    promises.push(getOrderHistory(user))
+  }
+  let orderHistory = await Promise.all(promises)
+  let combinedHistories = []
+  for (let history of orderHistory) combinedHistories.push(...history)
+  combinedHistories = combinedHistories.sort((a, b) => parseInt(a.Date) - parseInt(b.Date))
+  return combinedHistories
+}
+
+function getFormattedDate(unix) {
+  let date = new Date(unix)
+  let year = date.getFullYear()
+  let month = date.toLocaleString("default", {month: "long"})
+  let day = date.getDate()
+  let hours = date.getHours()
+  let ampm = hours >= 12 ? "PM" : "AM"
+  hours %= 12
+  hours = hours || 12
+  let minutes = (date.getMinutes().toString().length < 2 ? "0" : "") + date.getMinutes()
+  
+  return `${month} ${day}, ${year} - ${hours}:${minutes} ${ampm}`
+}
+
+async function isAdmin() {
+  if (getUser() === null) return false
+  let userDoc = await getDoc(doc(db, `users`, getUser().email))
+  return userDoc.data().Admin
+}
 
 export default {
     app,
@@ -159,5 +211,8 @@ export default {
     logout,
     useVouchers,
     checkOut,
-    addPurchase
+    addPurchase,
+    getOrderHistory,
+    getAllOrderHistory,
+    isAdmin
 }

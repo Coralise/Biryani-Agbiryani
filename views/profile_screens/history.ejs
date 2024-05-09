@@ -1,0 +1,187 @@
+<div id="history-wrapper" class="content-wrapper">
+    <div class="width-100 thailandesa" style="text-align: center; color: var(--primary-500); font-weight: bold; font-size: x-large;">Your Order History</div>
+    <div class="gap"></div>
+    <div class="gap"></div>
+    <div id="order-history-wrapper">
+    </div>
+</div>
+<script>
+    let User = JSON.parse(`<%- JSON.stringify(User) %>`)
+    
+    async function getOrderHistory(admin = false) {
+        let res = await fetch(admin ? "/api/admin/getallorderhistory" : "/api/getorderhistory", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ Email: User.email })
+        })
+        let history = await res.json()
+        history = history.reverse()
+        for (let historyEntry of history) {
+            console.log(historyEntry)
+
+            let orderHistory = document.createElement("div")
+            orderHistory.classList.add("order-history")
+            orderHistory.innerHTML = `
+                <img src="${historyEntry.Dishes[0].StorageURL}" alt="">
+                <div class="history-details">
+                    ${admin ? `
+                        <span><span class="bold">Ordered by</span> ${historyEntry.Email}</span>
+                    ` : ""}
+                    <span><span class="bold">Order No.</span> ${historyEntry.Date}</span>
+                    <p style="line-height: .8;">
+                        <span class="bold">Delivered on</span> ${historyEntry.FormattedDate}<br>
+                        <span class="time-since">${getTimeSince(parseInt(historyEntry.Date))}</span>
+                    </p>
+                    <span><span class="bold">${historyEntry.Dishes.length}</span> Dish${historyEntry.Dishes.length != 1 ? "es" : ""}, <span class="bold">${historyEntry.Dishes.map(d => d.Count).reduce((a, b) => a+b)}</span> Order${historyEntry.Dishes.map(d => d.Count).reduce((a, b) => a+b) != 1 ? "s" : ""}</span>
+                    <span><span class="bold">₱${historyEntry.Total.toFixed(2)}</span> Total Paid</span>
+                </div>
+                <div class="vertical-divider"></div>
+            `
+            let historyActions = document.createElement("div")
+            historyActions.classList.add("history-actions")
+            let viewDetailsButton = document.createElement("button")
+            viewDetailsButton.classList.add("four")
+            viewDetailsButton.innerHTML = "View Details"
+            viewDetailsButton.addEventListener("click", () => {
+                openModal(historyEntry, admin)
+            })
+
+            historyActions.appendChild(viewDetailsButton)
+            orderHistory.appendChild(historyActions)
+
+            document.querySelector(admin ? "#admin-order-history-wrapper" : "#order-history-wrapper").appendChild(orderHistory)
+        }
+    }
+
+    function getTimeSince(unix) {
+        let today = Date.now()
+        let difference = today - unix
+        let days = Math.floor(difference / 86400000)
+        difference %= 86400000
+        let hours = Math.floor(difference / 3600000)
+        difference %= 3600000
+        let minutes = Math.floor(difference / 60000)
+        difference %= 60000
+        let seconds = Math.floor(difference / 1000)
+
+        if (days > 0) return `${days} day${days != 1 ? "s" : ""} ago`
+        else if (hours > 0) return `${hours} hour${hours != 1 ? "s" : ""} ago`
+        else if (minutes > 0) return `${minutes} minute${minutes != 1 ? "s" : ""} ago`
+        else return `${seconds} second${seconds != 1 ? "s" : ""} ago`
+    }
+
+    function getDishTiles(dishes, admin = false) {
+        let dishTiles = ""
+        for (let dish of dishes) {
+            dishTiles += `
+                <div class="modal-dish-tile">
+                    <img src="${dish.StorageURL}" alt="">
+                    <div class="dish-details">
+                        <div>
+                            <span class="dish-category">${dish.Category}</span>
+                            <h3 class="dish-name">${dish.Name}</h3>
+                        </div>
+                        <div>
+                            <span><span class="bold">₱${dish.Price}</span> per Order</span>
+                            <br>
+                            <span><span class="bold">${dish.Count}</span> Order${dish.Count != 1 ? "s" : ""}</span>
+                        </div>
+                    </div>
+                    <div class="dish-total">₱${(parseFloat(dish.Count) * parseFloat(dish.Price)).toFixed(2)}</div>
+                </div>
+            `
+        }
+        return dishTiles
+    }
+
+    function getVoucherRows(vouchers, subtotal) {
+        let voucherRows = ""
+        for (let voucher of Object.keys(vouchers)) {
+            let deets = vouchers[voucher]
+            voucherRows += `
+                <tr>
+                    <td class="bold">${voucher}</td>
+                    <td id="summary-subtotal" class="text-right">-₱${deets.DiscountType == "Amount" ? deets.Discount : Math.min((parseFloat("0." + deets.Discount) * parseFloat(subtotal)).toFixed(2), parseFloat(deets.MaximumDiscount || Number.MAX_SAFE_INTEGER))}</td>
+                </tr>
+            `
+        }
+        if (voucherRows.length == 0) voucherRows = `
+            <tr>
+                <td colspan="2" style="text-align: center;">N/A</td>
+            </tr>
+        `
+        return voucherRows
+    }
+
+    function openModal(historyEntry, admin = false) {
+
+        console.log(historyEntry)
+
+        let dishTiles = getDishTiles(historyEntry.Dishes, admin)
+        let voucherRows = getVoucherRows(historyEntry.UsedVouchers, historyEntry.Subtotal)
+
+        document.querySelector("#order-history-modal").innerHTML = `
+            <div id="modal-dishes-wrapper">
+                ${dishTiles}
+            </div>
+            <div class="vertical-divider"></div>
+            <div id="modal-details">
+                ${admin ? `
+                    <span><span class="bold">Ordered by</span><br>${historyEntry.Email}</span>
+                    <br>    
+                    <br>    
+                ` : ""}
+                <span><span class="bold">Order #</span>${historyEntry.Date}</span>
+                <p>
+                    <span class="bold">Delivery Date</span>
+                    <br>
+                    ${historyEntry.FormattedDate}
+                    <br>
+                    <span class="time-since">${getTimeSince(parseInt(historyEntry.Date))}</span>
+                </p>
+                <table id="summary-table">
+                    <tr>
+                        <th class="bold" colspan="2" style="color: var(--primary-500);">Summary</th>
+                    </tr>
+                    <tr>
+                        <td class="bold">Subtotal</td>
+                        <td id="summary-subtotal" class="text-right">₱${historyEntry.Subtotal}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Delivery</td>
+                        <td id="summary-delivery" class="text-right">₱${historyEntry.DeliveryFee}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Discounts</td>
+                        <td id="summary-discounts" class="text-right">₱${historyEntry.TotalDiscount}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Total</td>
+                        <td class="bold text-right" id="summary-total">₱${historyEntry.Total.toFixed(2)}</td>
+                    </tr>
+                </table>
+                <div class="gap"></div>
+                <table id="vouchers-table">
+                    <tr>
+                        <th class="bold" colspan="2" style="color: var(--primary-500);">Used Vouchers</th>
+                    </tr>
+                    ${voucherRows}
+                </table>
+                <div class="gap"></div>
+
+            </div>
+        `
+
+        document.querySelector("#order-history-modal-background").classList.add("revealed")
+        document.querySelector("#order-history-modal").classList.add("revealed")
+    }
+
+    function dismissModal() {
+        document.querySelector("#order-history-modal-background").classList.remove("revealed")
+        document.querySelector("#order-history-modal").classList.remove("revealed")
+    }
+
+    getOrderHistory()
+</script>
